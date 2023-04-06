@@ -8,4 +8,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . /app
 
-ENTRYPOINT [ "python3", "-m" , "flask", "run", "--port=5000" ]
+EXPOSE 5000
+
+CMD [ "gunicorn", "app:app" , "-c", "gunicorn.conf.py" ]

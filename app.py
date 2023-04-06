@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import tiktoken
-import argparse
 
 app = Flask(__name__)
 
