@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.post("/tokenizer")
 def tokenizer():
-    if not request.json.get('model') or not request.json.get('content'):
+    if 'model' not in request.json or 'content' not in request.json:
         response = jsonify({
             'message': 'both model and content are required'
         })
@@ -16,6 +16,12 @@ def tokenizer():
     if request.json['model'] not in ['gpt-4', 'gpt-3.5-turbo']:
         response = jsonify({
             'message': 'the model is not supported'
+        })
+        return response
+
+    if not isinstance(request.json['content'], str):
+        response = jsonify({
+            'message': 'the content must be a string'
         })
         return response
 
