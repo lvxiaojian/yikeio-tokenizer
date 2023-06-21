@@ -13,11 +13,16 @@ def tokenizer():
         response.status_code = 422
         return response
 
-    if request.json['model'] not in ['gpt-4', 'gpt-3.5-turbo']:
+    model = request.json['model']
+
+    if model not in ['gpt-4', 'gpt-35-turbo']:
         response = jsonify({
             'message': 'the model is not supported'
         })
         return response
+
+    if model == 'gpt-35-turbo':
+        model = 'gpt-3.5-turbo'
 
     if not isinstance(request.json['content'], str):
         response = jsonify({
@@ -25,7 +30,7 @@ def tokenizer():
         })
         return response
 
-    encoding = tiktoken.encoding_for_model(request.json['model'])
+    encoding = tiktoken.encoding_for_model(model)
     tokens = encoding.encode(request.json['content'])
 
     response = jsonify({
